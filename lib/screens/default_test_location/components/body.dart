@@ -103,7 +103,7 @@ class _ChangeLocationState extends State<ChangeLocation> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => StaffHomeScreen(nextScreen: 2),
+                        builder: (context) => StaffHomeScreen(nextScreen: 1),
                       ));
                 }
               }

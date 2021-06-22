@@ -155,7 +155,7 @@ SliverPadding buildStatsHeader(String title) {
       title,
       style: const TextStyle(
         color: Colors.black,
-        fontSize: 20.0,
+        fontSize: 18.0,
         fontWeight: FontWeight.w600,
       ),
     )),
@@ -235,7 +235,7 @@ class StatsGrid extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         sliver: SliverToBoxAdapter(
             child: Container(
-          height: MediaQuery.of(context).size.height * 0.11,
+          height: MediaQuery.of(context).size.height * 0.14,
           child: Column(
             children: <Widget>[
               Flexible(

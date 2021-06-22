@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: ClampingScrollPhysics(),
           slivers: <Widget>[
             buildHeader(screenHeight),
-            buildTogether(screenHeight, 0.14),
+            buildTogether(screenHeight, 0.12),
             buildPreventionTips(screenHeight, 0.14),
             buildStatsHeader('Usage Report'),
             buildStatsTabBar((startDate, endDate) {
