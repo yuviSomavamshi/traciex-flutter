@@ -8,6 +8,7 @@ import 'package:traciex/screens/home/home_screen.dart';
 import 'package:traciex/screens/home/patient/screens/location_dropdown.dart';
 import 'package:traciex/size_config.dart';
 import 'package:toast/toast.dart';
+
 import 'package:traciex/helper/APIService.dart';
 
 APIService apiService = new APIService();
@@ -97,11 +98,14 @@ class _ChangeLocationState extends State<ChangeLocation> {
                     "DefaultTestLocationId", _location);
                 await SharedPreferencesHelper.setString(
                     "DefaultTestLocationName", selected.location);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StaffHomeScreen(nextScreen: 2),
-                    ));
+                String role = await SharedPreferencesHelper.getUserRole();
+                if (role == "Staff") {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StaffHomeScreen(nextScreen: 2),
+                      ));
+                }
               }
             },
           ),
