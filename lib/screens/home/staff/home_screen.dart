@@ -4,7 +4,6 @@ import 'package:traciex/helper/APIService.dart';
 import 'package:traciex/helper/SharedPreferencesHelper.dart';
 import 'package:traciex/models/QRCode.dart';
 import 'package:traciex/screens/home/custom_app_bar.dart';
-import 'package:intl/intl.dart';
 import 'package:traciex/screens/home/staff/register/patient_qr_scanner.dart';
 
 class StaffDashboardScreen extends StatefulWidget {
@@ -14,7 +13,6 @@ class StaffDashboardScreen extends StatefulWidget {
 
 class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
   QRCode myCode;
-  DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
   String total = "0", used = "0", scrapped = "0";
   @override
   void initState() {
@@ -26,7 +24,7 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
         });
     final now = DateTime.now();
     APIService apiService = new APIService();
-    String startDate = _dateFormat.format(now);
+    String startDate = dateFormat.format(now);
     apiService.getStaffUsageReport(startDate, startDate).then((value) {
       if (value != null) {
         this.setState(() {
@@ -47,8 +45,8 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
           physics: ClampingScrollPhysics(),
           slivers: <Widget>[
             buildHeader(screenHeight),
-            buildTogether(screenHeight),
-            buildPreventionTips(screenHeight),
+            buildTogether(screenHeight, 0.14),
+            buildPreventionTips(screenHeight, 0.14),
             buildStatsHeader('My Usage Report'),
             buildStatsTabBar((startDate, endDate) {
               APIService apiService = new APIService();

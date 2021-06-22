@@ -39,8 +39,8 @@ class _PatientDashboardScreenState extends State<PatientDashboardScreen> {
           physics: ClampingScrollPhysics(),
           slivers: <Widget>[
             buildPatientHeader(screenHeight, myCode, context),
-            buildTogether(screenHeight),
-            buildPreventionTips(screenHeight),
+            buildTogether(screenHeight, 0.14),
+            buildPreventionTips(screenHeight, 0.14),
             _MyGrid()
           ],
         ));

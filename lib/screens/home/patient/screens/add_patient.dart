@@ -9,7 +9,6 @@ import 'package:traciex/components/default_button.dart';
 import 'package:traciex/constants.dart';
 import 'package:traciex/size_config.dart';
 import 'package:toast/toast.dart';
-import 'package:intl/intl.dart';
 
 class RegisterPatient extends StatelessWidget {
   static String routeName = "/registerPatient";
@@ -54,7 +53,6 @@ class _PatientRegFormState extends State<PatientRegForm> {
   String nationality = "SG";
   String relationship = "Self";
   bool confirmation = false;
-  DateFormat _dateFormat = DateFormat('dd-MM-yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +121,7 @@ class _PatientRegFormState extends State<PatientRegForm> {
                       QRCode(
                           id: id,
                           name: name,
-                          dob: _dateFormat.format(_selectedDate),
+                          dob: dateFormat.format(_selectedDate),
                           relationship: relationship,
                           nationality: nationality,
                           confirmation: confirmation,
@@ -209,7 +207,7 @@ class _PatientRegFormState extends State<PatientRegForm> {
 
   TextFormField buildDobFormField() {
     TextEditingController intialDateValue = TextEditingController();
-    intialDateValue.text = _dateFormat.format(_selectedDate);
+    intialDateValue.text = dateFormat.format(_selectedDate);
     Future _selectDate() async {
       DateTime picked = await showDatePicker(
           context: context,
@@ -219,7 +217,7 @@ class _PatientRegFormState extends State<PatientRegForm> {
       if (picked != null)
         setState(() {
           _selectedDate = picked;
-          intialDateValue.text = _dateFormat.format(_selectedDate);
+          intialDateValue.text = dateFormat.format(_selectedDate);
         });
     }
 

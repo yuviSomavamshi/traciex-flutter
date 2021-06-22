@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:traciex/size_config.dart';
 import 'package:traciex/styles.dart';
-
 import 'helper/QRCodeAlert.dart';
 import 'models/QRCode.dart';
 import 'package:intl/intl.dart';
@@ -29,12 +28,12 @@ const NAME_REGEX = r"^[a-zA-Z0-9_ ]{4,25}$";
 const PASSWORD_REGEX =
     r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})";
 const kAnimationDuration = Duration(milliseconds: 100);
-DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
+DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+DateFormat timeFormat = DateFormat('HH:mm:ss');
 String validateName(String value) {
   if (value.isEmpty) {
     return kNamelNullError;
   }
-
   return RegExp(NAME_REGEX).hasMatch(value) ? null : kNamelValid;
 }
 
@@ -54,7 +53,7 @@ final prevention = [
   {'assets/images/3.svg': 'Wear a\nfacemask'},
 ];
 
-SliverToBoxAdapter buildPreventionTips(double screenHeight) {
+SliverToBoxAdapter buildPreventionTips(double screenHeight, double percent) {
   return SliverToBoxAdapter(
     child: Container(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
@@ -62,7 +61,7 @@ SliverToBoxAdapter buildPreventionTips(double screenHeight) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'COVID-19 Prevention Tips',
+            'Safety Tips',
             style: const TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.w600,
@@ -76,7 +75,7 @@ SliverToBoxAdapter buildPreventionTips(double screenHeight) {
                       children: <Widget>[
                         SvgPicture.asset(
                           e.keys.first,
-                          height: screenHeight * 0.14,
+                          height: screenHeight * percent,
                         ),
                         Text(
                           e.values.first,
@@ -96,12 +95,12 @@ SliverToBoxAdapter buildPreventionTips(double screenHeight) {
   );
 }
 
-SliverToBoxAdapter buildTogether(double screenHeight) {
+SliverToBoxAdapter buildTogether(double screenHeight, double percentage) {
   return SliverToBoxAdapter(
     child: Container(
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 20),
       padding: const EdgeInsets.all(10.0),
-      height: screenHeight * 0.15,
+      height: screenHeight * percentage,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFFAD9FE4), kPrimaryColor],
@@ -125,7 +124,7 @@ SliverToBoxAdapter buildTogether(double screenHeight) {
               ),
               SizedBox(height: screenHeight * 0.01),
               Text(
-                'Lets beat COVID-19 together\nprotect yourself, protect others.',
+                'Lets beat this Pandemic Together.',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14.0,
@@ -200,18 +199,18 @@ SliverPadding buildStatsTabBar(
             String startDate, endDate;
             switch (index) {
               case 0:
-                startDate = _dateFormat.format(now);
+                startDate = dateFormat.format(now);
                 endDate = startDate;
                 break;
               case 1:
                 final yesterday = DateTime(now.year, now.month, now.day - 1);
-                startDate = _dateFormat.format(yesterday);
+                startDate = dateFormat.format(yesterday);
                 endDate = startDate;
                 break;
               case 2:
                 final lastWeek = DateTime(now.year, now.month, now.day - 7);
-                startDate = _dateFormat.format(lastWeek);
-                endDate = _dateFormat.format(now);
+                startDate = dateFormat.format(lastWeek);
+                endDate = dateFormat.format(now);
                 break;
             }
             onChanged(startDate, endDate);
@@ -396,12 +395,12 @@ const String kEmailNullError = "Please Enter your email";
 const String kInvalidEmailError = "Please Enter Valid Email";
 const String kPassNullError = "Please Enter your password";
 const String kPassValid =
-    "Secure Password Tips:\t\n\t\t* Use at least 8 characters, a combination of\nnumbers, special characters and letters\n\t\t* at least one lowercase letter.\n\t\t* at least one uppercase letter.\n\t\t* at least one number.\n\t\t* at least one of these special character \n !@#\$%^&";
+    "Secure Password Tips:\t\n\t\t* Use at least 8 characters, a combination of\nnumbers, special characters and letters\n\t\t* at least one lowercase letter.\n\t\t* at least one uppercase letter.\n\t\t* at least one number.\n\t\t* at least one of these special characters \n !@#\$%^&";
 const String kShortPassError = "Password is too short, minimum of 8 characters";
 const String kMatchPassError = "Passwords don't match";
 const String kICPassportNullError = "Please Enter your IC/Passport details";
 const String kNamelValid =
-    "Name can contain\n*. 1 or more lowercase/uppercase \n\talphabetical character.\n*. 1 or more numeric character.\n*. Allowed special characters are underscore\n\t and Space";
+    "Name can contain\n*. 1 or more lowercase/uppercase \n\talphabetical characters.\n*. 1 or more numeric characters.\n*. Allowed special characters are underscore\n\t and Space";
 const String kLocationNameNullError = "Please enter location name";
 const String kNamelNullError = "Please Enter your name";
 const String kNameFNullError = "Please Enter name field";
@@ -454,9 +453,13 @@ const List RelationshipTypes = [
 ];
 
 const List SlotIntervals = [
+  {"display": "5 minutes", "value": 5},
+  {"display": "10 minutes", "value": 10},
   {"display": "15 minutes", "value": 15},
   {"display": "30 minutes", "value": 30},
-  {"display": "1 hour", "value": 60}
+  {"display": "45 minutes", "value": 45},
+  {"display": "1 hour", "value": 60},
+  {"display": "2 hours", "value": 120}
 ];
 
 final otpInputDecoration = InputDecoration(

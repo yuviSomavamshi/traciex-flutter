@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:traciex/constants.dart';
 import 'package:traciex/helper/APIService.dart';
 import 'package:traciex/screens/home/custom_app_bar.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,7 +9,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
   String total = "0", used = "0", scrapped = "0";
 
   @override
@@ -18,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     final now = DateTime.now();
     APIService apiService = new APIService();
-    String reportDate = _dateFormat.format(now);
+    String reportDate = dateFormat.format(now);
     apiService.getUsageReport(reportDate, reportDate).then((value) {
       if (value != null) {
         this.setState(() {
@@ -39,8 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: ClampingScrollPhysics(),
           slivers: <Widget>[
             buildHeader(screenHeight),
-            buildTogether(screenHeight),
-            buildPreventionTips(screenHeight),
+            buildTogether(screenHeight, 0.14),
+            buildPreventionTips(screenHeight, 0.14),
             buildStatsHeader('Usage Report'),
             buildStatsTabBar((startDate, endDate) {
               APIService apiService = new APIService();
