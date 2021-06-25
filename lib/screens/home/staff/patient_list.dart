@@ -1,17 +1,18 @@
 import 'dart:async';
-
+import 'package:traciex/screens/default_test_location/default_test_location_screen.dart';
 import 'package:toast/toast.dart';
 import 'package:traciex/constants.dart';
 import 'package:traciex/helper/APIService.dart';
 import 'package:traciex/helper/SharedPreferencesHelper.dart';
 import 'package:traciex/models/Result.dart';
-import 'package:traciex/screens/default_test_location/default_test_location_screen.dart';
 import 'package:traciex/screens/home/custom_app_bar.dart';
-import 'package:traciex/screens/home/home_screen.dart';
 import 'package:traciex/screens/home/staff/register/patient_qr_scanner.dart';
 import 'package:traciex/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:poller/poller.dart';
+import '../home_screen.dart';
+
+APIService apiService = new APIService();
 
 extension StringExtensions on String {
   bool containsIgnoreCase(String secondString) =>
@@ -35,7 +36,7 @@ class _RecentScansState extends State<RecentScans> {
     super.initState();
     _search = "";
     _searchPressed = false;
-    SharedPreferencesHelper.getResults().then((r) {
+    apiService.patients().then((r) {
       this.setState(() {
         results = r;
       });
@@ -44,27 +45,11 @@ class _RecentScansState extends State<RecentScans> {
       _poller = new Poller(
           seconds: 10,
           callback: () async {
-            APIService apiService = new APIService();
-            for (var i = 0; i < results.length; i++) {
-              var p = results[i];
-              if (p.result == "Pending") {
-                apiService.patientReport(p.getHash()).then((result) {
-                  try {
-                    var r = result.firstWhere((e) => e.barcode == p.barcode,
-                        orElse: () => null);
-                    if (r != null) {
-                      p.result = r.result;
-                      setState(() {
-                        results[i] = p;
-                      });
-                      SharedPreferencesHelper.persistResults(results);
-                    }
-                  } on Exception catch (e) {
-                    print(e);
-                  }
-                });
-              }
-            }
+            apiService.patients().then((r) {
+              this.setState(() {
+                results = r;
+              });
+            });
           },
           logging: false);
       _poller.start();
@@ -125,7 +110,7 @@ class _RecentScansState extends State<RecentScans> {
             size: 29,
           ),
           backgroundColor: kPrimaryColor,
-          tooltip: 'Scan patient QR and device barcode',
+          tooltip: 'Scan User QR and device barcode',
           elevation: 5,
           splashColor: Colors.grey,
         ));
@@ -178,7 +163,7 @@ class _RecentScansState extends State<RecentScans> {
         }
       });
     return Container(
-        height: getProportionateScreenHeight(480),
+        height: MediaQuery.of(context).size.height * 0.6,
         child: filtered.length > 0
             ? ListView.builder(
                 itemCount: filtered.length,
@@ -187,7 +172,6 @@ class _RecentScansState extends State<RecentScans> {
                     confirmDismiss: (direction) async {
                       if (direction == DismissDirection.endToStart) {
                         if (filtered[index].result == "Pending") {
-                          print(filtered[index].getHash());
                           Toast.show("You cannot delete this record", context,
                               duration: kToastDuration, gravity: Toast.BOTTOM);
                           return null;
@@ -198,7 +182,7 @@ class _RecentScansState extends State<RecentScans> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 content: Text(
-                                    "Are you sure you want to delete?\n\nIC:${filtered[index].id}\nName:${filtered[index].name}"),
+                                    "Are you sure you want to delete?\n\nIC: ${filtered[index].id}\nName: ${filtered[index].name}"),
                                 actions: <Widget>[
                                   // ignore: deprecated_member_use
                                   FlatButton(
@@ -217,6 +201,11 @@ class _RecentScansState extends State<RecentScans> {
                                         style: TextStyle(color: Colors.red),
                                       ),
                                       onPressed: () {
+                                        apiService
+                                            .checkOutPatient(
+                                                filtered[index].getHash(),
+                                                filtered[index].barcode)
+                                            .then((value) => print);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -249,7 +238,7 @@ class _RecentScansState extends State<RecentScans> {
                   );
                 },
               )
-            : noRecords("No records found"));
+            : noRecords("No Records Found"));
   }
 
   Future<List<Result>> downloadData() async {

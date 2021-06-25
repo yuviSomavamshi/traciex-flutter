@@ -11,6 +11,7 @@ import 'package:traciex/models/Result.dart';
 import 'package:traciex/models/user.dart';
 import 'package:meta/meta.dart';
 import '../constants.dart';
+import 'Convertor.dart';
 import 'navigate.dart';
 import 'package:http/http.dart' as http;
 
@@ -423,6 +424,47 @@ class APIService {
     } on Exception catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  Future<List<Result>> patients() async {
+    try {
+      String locationId =
+          await SharedPreferencesHelper.getString("DefaultTestLocationId");
+      final response = await _dio.get('/bc/location?locationId=' + locationId);
+      List<Result> _results = [];
+      if (response.statusCode == 200) {
+        for (var _result in response.data) {
+          Convertor c = new Convertor();
+          dynamic json = jsonDecode(c.decrypt(_result["patientId"]));
+
+          var obj = Result.fromJson({
+            "id": json["id"],
+            "name": json["name"],
+            "nationality": json["nationality"],
+            "dob": json["dob"],
+            "diagnosis": _result["diagnosis"],
+            "subject_id": _result["code"]
+          });
+          _results.add(obj);
+        }
+      }
+      return _results;
+    } on Exception catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<bool> checkOutPatient(String patientId, String barcode) async {
+    try {
+      final response = await _dio.post('/bc/checkout',
+          data: {"patientId": patientId, "barcode": barcode});
+      print(response);
+      return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
     }
   }
 }
