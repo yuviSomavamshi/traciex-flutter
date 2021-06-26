@@ -374,22 +374,26 @@ class APIService {
     }
   }
 
-  Future<API> registerPatient({QRCode code, location = "Not Assigned"}) async {
+  Future<API> registerPatient(QRCode code) async {
     try {
+      String locationId =
+          await SharedPreferencesHelper.getString("DefaultTestLocationId");
       String location =
           await SharedPreferencesHelper.getString("DefaultTestLocationName");
       String staffId = await SharedPreferencesHelper.getUserId();
+      print(locationId);
       final response = await _dio.post('/bc/register-device', data: {
         "patientId": code.getHash(),
         "barcode": code.relationship,
         "timestamp": DateTime.now().toString(),
         "location": location != null ? location : "-",
+        "locationId": locationId,
         "staffId": staffId
       });
       return API.fromJson(response.data);
-    } catch (error) {
-      print(error);
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      print(e);
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
