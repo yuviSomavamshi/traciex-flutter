@@ -31,7 +31,7 @@ class ScanSummaryScreen extends StatelessWidget {
                   sliver: SliverToBoxAdapter(
                       child: Column(children: [
                     SizedBox(height: 20),
-                    Text("Patient Summary",
+                    Text("Summary",
                         style: TextStyle(
                             fontSize: getProportionateScreenWidth(20),
                             color: kPrimaryColor,
