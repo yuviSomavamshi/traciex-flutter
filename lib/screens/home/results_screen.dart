@@ -32,29 +32,30 @@ class _RegisteredPatientsListState extends State<RegisteredPatientsList> {
               fontWeight: FontWeight.w800)),
       SizedBox(height: 30),
       if (items.length > 0)
-        Expanded(
+        Container(
+            height: MediaQuery.of(context).size.height * 0.6,
             child: ListView.builder(
-          itemCount: items.length,
-          padding: const EdgeInsets.all(8),
-          itemBuilder: (BuildContext context, int index) {
-            if (patient == null)
-              return Dismissible(
-                child: resultCard(index),
-                background: Container(
-                  color: Colors.red,
-                ),
-                key: ValueKey<Result>(items[index]),
-                direction: DismissDirection.startToEnd,
-                onDismissed: (DismissDirection direction) {
-                  setState(() {
-                    items.removeAt(index);
-                  });
-                },
-              );
-            else
-              return resultCard(index);
-          },
-        ))
+              itemCount: items.length,
+              padding: const EdgeInsets.all(8),
+              itemBuilder: (BuildContext context, int index) {
+                if (patient == null)
+                  return Dismissible(
+                    child: resultCard(index),
+                    background: Container(
+                      color: Colors.red,
+                    ),
+                    key: ValueKey<Result>(items[index]),
+                    direction: DismissDirection.startToEnd,
+                    onDismissed: (DismissDirection direction) {
+                      setState(() {
+                        items.removeAt(index);
+                      });
+                    },
+                  );
+                else
+                  return resultCard(index);
+              },
+            ))
       else
         noRecords("No records found")
     ]);
@@ -66,6 +67,10 @@ class _RegisteredPatientsListState extends State<RegisteredPatientsList> {
       cl = Colors.green;
     } else if (items[index].result == "Positive") {
       cl = Colors.red;
+    } else if (items[index].result == "Invalid") {
+      cl = Colors.deepOrange;
+    } else if (items[index].result == "Scrapped") {
+      cl = Colors.deepPurple;
     }
 
     return Container(
@@ -88,7 +93,7 @@ class _RegisteredPatientsListState extends State<RegisteredPatientsList> {
                   customTextWidget(items[index].name)
                 ],
               )
-            else
+            else if (items[index].location != "Unknown")
               Row(
                 children: [
                   Image.asset(
