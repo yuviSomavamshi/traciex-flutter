@@ -42,7 +42,7 @@ class _PatientBottomNavScreenState extends State<PatientBottomNavScreen> {
         selectedItemColor: Colors.white,
         unselectedItemColor: kPrimaryColor,
         elevation: 0.0,
-        items: [Icons.home, Icons.qr_code, Icons.calendar_today, Icons.person]
+        items: [Icons.home, Icons.qr_code, Icons.person]
             .asMap()
             .map((key, value) => MapEntry(
                   key,
