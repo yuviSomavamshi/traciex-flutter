@@ -9,6 +9,7 @@ import 'package:traciex/components/default_button.dart';
 import 'package:traciex/constants.dart';
 import 'package:traciex/size_config.dart';
 import 'package:toast/toast.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPatient extends StatelessWidget {
   static String routeName = "/registerPatient";
@@ -53,6 +54,16 @@ class _PatientRegFormState extends State<PatientRegForm> {
   String nationality = "SG";
   String relationship = "Self";
   bool confirmation = false;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferencesHelper.getUserName().then((value) {
+      setState(() {
+        name = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +188,10 @@ class _PatientRegFormState extends State<PatientRegForm> {
   }
 
   TextFormField buildNameFormField() {
+    TextEditingController intialValue = TextEditingController();
+    intialValue.text = name;
     return TextFormField(
+      controller: intialValue,
       maxLength: 25,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {

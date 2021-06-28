@@ -3,10 +3,12 @@ import 'package:traciex/models/Location.dart';
 
 class LocationDropDown extends StatelessWidget {
   final List<Location> locations;
+  final String title;
   final String location;
   final Function(String) onChanged;
 
   const LocationDropDown({
+    this.title = "Location",
     @required this.locations,
     @required this.location,
     @required this.onChanged,
@@ -18,8 +20,7 @@ class LocationDropDown extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 20),
-        Text("Preferred Location",
-            style: TextStyle(fontSize: 20, color: Colors.black)),
+        Text(title, style: TextStyle(fontSize: 20, color: Colors.black)),
         DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: location,
