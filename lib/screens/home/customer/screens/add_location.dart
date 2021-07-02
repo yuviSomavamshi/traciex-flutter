@@ -21,7 +21,7 @@ class RegisterLocation extends StatelessWidget {
             slivers: <Widget>[
               buildHeader(screenHeight),
               SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   sliver: SliverToBoxAdapter(
                       child: Column(
                     children: [
@@ -56,7 +56,7 @@ class _LocationRegFormState extends State<LocationRegForm> {
         key: _formKey,
         child: Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
           child: Column(
             children: [
               _buildFirstNameFormField(),

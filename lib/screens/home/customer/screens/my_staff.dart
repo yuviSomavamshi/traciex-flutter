@@ -45,12 +45,12 @@ class _MyStaffListState extends State<MyStaffList> {
                   slivers: <Widget>[
                     buildHeader(screenHeight),
                     SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         sliver: SliverToBoxAdapter(
                             child: (snapshot.data.length > 0)
                                 ? Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
+                                        EdgeInsets.symmetric(horizontal: 5),
                                     child: Column(children: [
                                       SizedBox(height: 20),
                                       Text("My Staff",
@@ -172,7 +172,7 @@ class StaffCard extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(color: Color(0XFFDADADA), width: 2),
             borderRadius: BorderRadius.circular(10),
@@ -187,7 +187,7 @@ class StaffCard extends StatelessWidget {
                   child: SvgPicture.asset('assets/images/staff_member.svg',
                       width: 45, height: 45)),
               SizedBox(
-                width: 10,
+                width: 5,
               ),
               Container(
                   width: getProportionateScreenWidth(200),

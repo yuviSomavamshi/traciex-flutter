@@ -43,10 +43,10 @@ class _LocationHomeScreenBodyState extends State<LocationHomeScreenBody>
                   slivers: <Widget>[
                     buildHeader(screenHeight),
                     SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       sliver: SliverToBoxAdapter(
                         child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: EdgeInsets.symmetric(horizontal: 5),
                             child: Column(
                               children: [
                                 SizedBox(height: 20),
@@ -204,7 +204,7 @@ class LocationQRCodeCard extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(color: Color(0XFFDADADA), width: 2),
             borderRadius: BorderRadius.circular(10),
