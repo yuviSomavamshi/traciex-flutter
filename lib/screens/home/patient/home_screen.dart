@@ -7,7 +7,6 @@ import 'package:traciex/helper/SharedPreferencesHelper.dart';
 import 'package:traciex/models/QRCode.dart';
 import 'package:traciex/screens/default_test_location/default_test_location_screen.dart';
 import 'package:traciex/screens/home/custom_app_bar.dart';
-import 'package:traciex/screens/home/home_screen.dart';
 import 'package:traciex/screens/home/patient/screens/add_patient.dart';
 import 'package:traciex/size_config.dart';
 import 'package:toast/toast.dart';

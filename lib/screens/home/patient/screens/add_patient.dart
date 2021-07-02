@@ -9,7 +9,6 @@ import 'package:traciex/components/default_button.dart';
 import 'package:traciex/constants.dart';
 import 'package:traciex/size_config.dart';
 import 'package:toast/toast.dart';
-import 'package:intl/intl.dart';
 
 class RegisterPatient extends StatelessWidget {
   static String routeName = "/registerPatient";

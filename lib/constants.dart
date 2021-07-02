@@ -301,7 +301,7 @@ Widget customTextWidget(String text) {
 SliverToBoxAdapter buildHeader(double screenHeight) {
   return SliverToBoxAdapter(
     child: Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: kPrimaryColor,
           borderRadius: BorderRadius.only(
