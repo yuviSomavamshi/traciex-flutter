@@ -8,7 +8,7 @@ class Styles {
 
   static const chartLabelsTextStyle = TextStyle(
     color: Colors.grey,
-    fontSize: 14.0,
+    fontSize: 14,
     fontWeight: FontWeight.w500,
   );
 

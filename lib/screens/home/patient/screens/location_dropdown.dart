@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traciex/models/Location.dart';
+import 'package:traciex/size_config.dart';
 
 class LocationDropDown extends StatelessWidget {
   final List<Location> locations;
@@ -20,7 +21,7 @@ class LocationDropDown extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 20),
-        Text(title, style: TextStyle(fontSize: 20, color: Colors.black)),
+        Text(title, style: TextStyle(fontSize: getProportionateScreenWidth(20), color: Colors.black)),
         DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: location,
@@ -32,7 +33,7 @@ class LocationDropDown extends StatelessWidget {
                           const SizedBox(width: 8.0),
                           Text(
                             e.location,
-                            style: const TextStyle(fontSize: 16.0),
+                            style: TextStyle(fontSize: getProportionateScreenWidth(16)),
                           )
                         ],
                       ),

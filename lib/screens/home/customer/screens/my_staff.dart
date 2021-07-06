@@ -199,12 +199,12 @@ class StaffCard extends StatelessWidget {
                           maxLines: 1,
                           softWrap: false,
                           textAlign: TextAlign.left,
-                          style: TextStyle(color: Colors.black, fontSize: 18)),
+                          style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(18))),
                       Text(
                         member.email,
                         textAlign: TextAlign.left,
                         style:
-                            TextStyle(color: Color(0XFF8C92A4), fontSize: 14),
+                            TextStyle(color: Color(0XFF8C92A4), fontSize: getProportionateScreenWidth(14)),
                         maxLines: 2,
                       ),
                       Text(
@@ -215,7 +215,7 @@ class StaffCard extends StatelessWidget {
                             : "-",
                         textAlign: TextAlign.left,
                         style:
-                            TextStyle(color: Color(0XFF8C92A4), fontSize: 12),
+                            TextStyle(color: Color(0XFF8C92A4), fontSize: getProportionateScreenWidth(12)),
                         maxLines: 2,
                       )
                     ],

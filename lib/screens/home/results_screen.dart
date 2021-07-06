@@ -144,7 +144,7 @@ class _RegisteredPatientsListState extends State<RegisteredPatientsList> {
               color: cl,
               child: Text(
                 items[index].result,
-                style: TextStyle(color: Colors.white, fontSize: 14),
+                style: TextStyle(color: Colors.white, fontSize: getProportionateScreenWidth(14)),
               ))
         ]));
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:traciex/screens/profile/components/image_picker_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:traciex/constants.dart';
+import 'package:traciex/size_config.dart';
 
 // ignore: must_be_immutable
 class ImagePickerDialog extends StatelessWidget {
@@ -133,7 +134,7 @@ class ImagePickerDialog extends StatelessWidget {
       child: Text(
         buttonLabel,
         style: new TextStyle(
-            color: textColor, fontSize: 20.0, fontWeight: FontWeight.bold),
+            color: textColor, fontSize: getProportionateScreenWidth(20), fontWeight: FontWeight.bold),
       ),
     );
     return loginBtn;

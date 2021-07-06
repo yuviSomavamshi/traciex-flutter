@@ -125,7 +125,7 @@ class _RecentScansState extends State<RecentScans> {
           onChanged: (value) {
             _search = value;
           },
-          style: TextStyle(fontSize: 18, color: Colors.black45),
+          style: TextStyle(fontSize: getProportionateScreenWidth(18), color: Colors.black45),
           decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               prefixIcon: Icon(Icons.people),
@@ -296,7 +296,7 @@ class ReportCard extends StatelessWidget {
                   report.result,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: getProportionateScreenWidth(14),
                       fontWeight: FontWeight.bold),
                 )),
           )
