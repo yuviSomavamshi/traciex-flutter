@@ -185,7 +185,8 @@ class StaffCard extends StatelessWidget {
                   minWidth: getProportionateScreenWidth(40),
                   padding: EdgeInsets.all(0.0),
                   child: SvgPicture.asset('assets/images/staff_member.svg',
-                      width: getProportionateScreenWidth(40), height: getProportionateScreenHeight(40))),
+                      width: getProportionateScreenWidth(40),
+                      height: getProportionateScreenHeight(40))),
               SizedBox(
                 width: 5,
               ),
@@ -199,12 +200,15 @@ class StaffCard extends StatelessWidget {
                           maxLines: 1,
                           softWrap: false,
                           textAlign: TextAlign.left,
-                          style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(18))),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenWidth(18))),
                       Text(
                         member.email,
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(color: Color(0XFF8C92A4), fontSize: getProportionateScreenWidth(14)),
+                        style: TextStyle(
+                            color: Color(0XFF8C92A4),
+                            fontSize: getProportionateScreenWidth(14)),
                         maxLines: 2,
                       ),
                       Text(
@@ -214,8 +218,9 @@ class StaffCard extends StatelessWidget {
                                     .millisecondsSinceEpoch)
                             : "-",
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(color: Color(0XFF8C92A4), fontSize: getProportionateScreenWidth(12)),
+                        style: TextStyle(
+                            color: Color(0XFF8C92A4),
+                            fontSize: getProportionateScreenWidth(12)),
                         maxLines: 2,
                       )
                     ],

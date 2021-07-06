@@ -21,7 +21,10 @@ class LocationDropDown extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 20),
-        Text(title, style: TextStyle(fontSize: getProportionateScreenWidth(20), color: Colors.black)),
+        Text(title,
+            style: TextStyle(
+                fontSize: getProportionateScreenWidth(20),
+                color: Colors.black)),
         DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: location,
@@ -33,7 +36,8 @@ class LocationDropDown extends StatelessWidget {
                           const SizedBox(width: 8.0),
                           Text(
                             e.location,
-                            style: TextStyle(fontSize: getProportionateScreenWidth(16)),
+                            style: TextStyle(
+                                fontSize: getProportionateScreenWidth(16)),
                           )
                         ],
                       ),

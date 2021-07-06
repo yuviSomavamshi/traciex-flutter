@@ -134,7 +134,9 @@ class ImagePickerDialog extends StatelessWidget {
       child: Text(
         buttonLabel,
         style: new TextStyle(
-            color: textColor, fontSize: getProportionateScreenWidth(20), fontWeight: FontWeight.bold),
+            color: textColor,
+            fontSize: getProportionateScreenWidth(20),
+            fontWeight: FontWeight.bold),
       ),
     );
     return loginBtn;

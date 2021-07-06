@@ -213,7 +213,8 @@ class PatientCard extends StatelessWidget {
                     minWidth: getProportionateScreenWidth(40),
                     padding: EdgeInsets.all(0.0),
                     child: Image.asset('assets/images/qrcode.png',
-                        width: getProportionateScreenWidth(40), height: getProportionateScreenHeight(40))),
+                        width: getProportionateScreenWidth(40),
+                        height: getProportionateScreenHeight(40))),
                 SizedBox(
                   width: 15,
                 ),
@@ -226,14 +227,17 @@ class PatientCard extends StatelessWidget {
                           child: Text(
                         qrCode.name,
                         maxLines: 10,
-                        style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(16)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(16)),
                         overflow: TextOverflow.ellipsis,
                       )),
                       Text(
                         qrCode.relationship,
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(color: Color(0XFF8C92A4), fontSize: getProportionateScreenWidth(14)),
+                        style: TextStyle(
+                            color: Color(0XFF8C92A4),
+                            fontSize: getProportionateScreenWidth(14)),
                         maxLines: 2,
                       ),
                       Text(
@@ -243,8 +247,9 @@ class PatientCard extends StatelessWidget {
                                     .millisecondsSinceEpoch)
                             : "-",
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(color: Color(0XFF8C92A4), fontSize: getProportionateScreenWidth(14)),
+                        style: TextStyle(
+                            color: Color(0XFF8C92A4),
+                            fontSize: getProportionateScreenWidth(14)),
                         maxLines: 2,
                       )
                     ],

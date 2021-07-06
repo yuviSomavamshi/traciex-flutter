@@ -181,17 +181,20 @@ SliverPadding buildStatsTabBar(
             Tab(
                 child: Align(
               alignment: Alignment.center,
-              child: Text("Today", style: TextStyle(fontSize: getProportionateScreenWidth(14))),
+              child: Text("Today",
+                  style: TextStyle(fontSize: getProportionateScreenWidth(14))),
             )),
             Tab(
                 child: Align(
               alignment: Alignment.center,
-              child: Text("Yesterday", style: TextStyle(fontSize: getProportionateScreenWidth(14))),
+              child: Text("Yesterday",
+                  style: TextStyle(fontSize: getProportionateScreenWidth(14))),
             )),
             Tab(
                 child: Align(
               alignment: Alignment.center,
-              child: Text("Last 7 Days", style: TextStyle(fontSize: getProportionateScreenWidth(14))),
+              child: Text("Last 7 Days",
+                  style: TextStyle(fontSize: getProportionateScreenWidth(14))),
             )),
           ],
           onTap: (index) {
@@ -295,7 +298,9 @@ Widget customTextWidget(String text) {
       softWrap: false,
       textAlign: TextAlign.left,
       style: TextStyle(
-          color: Colors.black, fontSize: getProportionateScreenWidth(16), fontWeight: FontWeight.bold));
+          color: Colors.black,
+          fontSize: getProportionateScreenWidth(16),
+          fontWeight: FontWeight.bold));
 }
 
 SliverToBoxAdapter buildHeader(double screenHeight) {

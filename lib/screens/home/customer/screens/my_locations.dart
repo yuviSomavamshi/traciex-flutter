@@ -217,7 +217,8 @@ class LocationQRCodeCard extends StatelessWidget {
                   minWidth: getProportionateScreenWidth(40),
                   padding: EdgeInsets.all(0.0),
                   child: Image.asset('assets/images/qrcode.png',
-                      width: getProportionateScreenWidth(40), height: getProportionateScreenHeight(40))),
+                      width: getProportionateScreenWidth(40),
+                      height: getProportionateScreenHeight(40))),
               SizedBox(
                 width: 10,
               ),
@@ -229,7 +230,9 @@ class LocationQRCodeCard extends StatelessWidget {
                       maxLines: 1,
                       softWrap: false,
                       textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(18))),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(18))),
                   Text(
                     loc.created != null
                         ? "Added " +
@@ -237,7 +240,9 @@ class LocationQRCodeCard extends StatelessWidget {
                                 .millisecondsSinceEpoch)
                         : "-",
                     textAlign: TextAlign.left,
-                    style: TextStyle(color: Color(0XFF8C92A4), fontSize: getProportionateScreenWidth(14)),
+                    style: TextStyle(
+                        color: Color(0XFF8C92A4),
+                        fontSize: getProportionateScreenWidth(14)),
                     maxLines: 2,
                   )
                 ],

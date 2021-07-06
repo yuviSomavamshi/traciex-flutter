@@ -104,7 +104,7 @@ class _ScanDeviceBarcodeFormState extends State<ScanDeviceBarcodeForm> {
                                   kPrimaryColor)),
                           onPressed: barcode == null || barcode.isEmpty
                               ? null
-                              : () async {                                  
+                              : () async {
                                   await SharedPreferencesHelper.setString(
                                       "device_barcode", barcode);
                                   APIService apiService = new APIService();
@@ -263,7 +263,8 @@ class DetailsCard extends StatelessWidget {
                       minWidth: getProportionateScreenWidth(40),
                       padding: EdgeInsets.all(0.0),
                       child: Image.asset('assets/images/breathalyzer.png',
-                          width: getProportionateScreenWidth(40), height: getProportionateScreenHeight(40))),
+                          width: getProportionateScreenWidth(40),
+                          height: getProportionateScreenHeight(40))),
                   SizedBox(
                     width: 5,
                   ),
