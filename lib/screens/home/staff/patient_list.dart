@@ -154,8 +154,6 @@ class _RecentScansState extends State<RecentScans> {
     List<Result> filtered = [];
     if (results != null)
       results.forEach((element) {
-        print(_search + ":" + element.name);
-
         if (element.name.containsIgnoreCase(_search) ||
             element.id.containsIgnoreCase(_search) ||
             element.barcode.containsIgnoreCase(_search)) {

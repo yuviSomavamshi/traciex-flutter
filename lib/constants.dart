@@ -267,7 +267,7 @@ class StatsGrid extends StatelessWidget {
               title,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: getProportionateScreenWidth(18),
+                fontSize: getProportionateScreenWidth(14),
                 fontWeight: FontWeight.w600,
               ),
             ),
