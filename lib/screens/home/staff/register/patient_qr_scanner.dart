@@ -228,7 +228,8 @@ class PatientDetailsCard extends StatelessWidget {
                       minWidth: getProportionateScreenWidth(40),
                       padding: EdgeInsets.all(0.0),
                       child: Image.asset('assets/images/Profile Image.png',
-                          width: getProportionateScreenWidth(40), height: getProportionateScreenHeight(40))),
+                          width: getProportionateScreenWidth(40),
+                          height: getProportionateScreenHeight(40))),
                   SizedBox(
                     width: 5,
                   ),
@@ -289,8 +290,9 @@ class PatientDetailsCard extends StatelessWidget {
                               maxLines: 1,
                               softWrap: false,
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(16)))
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(16)))
                         ],
                       ),
                       SizedBox(height: 5),
@@ -309,8 +311,9 @@ class PatientDetailsCard extends StatelessWidget {
                               maxLines: 1,
                               softWrap: false,
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(16)))
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(16)))
                         ],
                       )
                     ],

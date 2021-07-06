@@ -307,8 +307,9 @@ class PatientSummaryCard extends StatelessWidget {
                               maxLines: 1,
                               softWrap: false,
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(14)))
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(14)))
                         ],
                       ),
                       SizedBox(height: 3),
@@ -327,8 +328,9 @@ class PatientSummaryCard extends StatelessWidget {
                               maxLines: 1,
                               softWrap: false,
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(16)))
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(16)))
                         ],
                       )
                     ],
@@ -340,7 +342,8 @@ class PatientSummaryCard extends StatelessWidget {
                       minWidth: getProportionateScreenWidth(40),
                       padding: EdgeInsets.all(10),
                       child: Image.asset('assets/images/qrcode.png',
-                          width: getProportionateScreenWidth(40), height: getProportionateScreenHeight(40)))
+                          width: getProportionateScreenWidth(40),
+                          height: getProportionateScreenHeight(40)))
                 ],
               ),
             ),
@@ -395,8 +398,9 @@ class BarcodeSummaryCard extends StatelessWidget {
                               maxLines: 1,
                               softWrap: false,
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(12)))
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(12)))
                         ],
                       ),
                       // ignore: deprecated_member_use
@@ -410,7 +414,9 @@ class BarcodeSummaryCard extends StatelessWidget {
                           color: paired ? Colors.green : Colors.grey,
                           child: Text(
                             paired ? "Paired" : "Pairing",
-                            style: TextStyle(color: Colors.white, fontSize: getProportionateScreenWidth(12)),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: getProportionateScreenWidth(12)),
                           ))
                     ],
                   ),
