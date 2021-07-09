@@ -154,7 +154,6 @@ class _ScanPatientQRCodeFormState extends State<ScanPatientQRCodeForm> {
         result = scanData;
         if (result.format.formatName == "QR_CODE") {
           try {
-            print(result.code);
             var json;
 
             if (result.code.startsWith("{")) {
