@@ -43,7 +43,6 @@ class APIService {
       options.headers["User-Agent"] = "HealthX-Mobile";
       options.headers["Accept"] = "application/json";
 
-      print('send request：path:${options.path}，baseURL:${options.baseUrl}');
       // Do something before request is sent
       return handler.next(options); //continue
       // If you want to resolve the request with some custom data，
@@ -69,8 +68,6 @@ class APIService {
               "External service is not responding. Please try again after sometime."
         }, statusCode: 500, statusMessage: "No Internet", requestOptions: null);
       }
-      print(
-          'ERROR[${error.response?.statusCode}] => PATH: ${error.requestOptions?.path}');
       // Do something with response error
       if (error.response?.statusCode == 401 &&
           error.requestOptions?.path != "/accounts/refresh-token") {
@@ -96,9 +93,6 @@ class APIService {
                 "Accept": "application/json"
               });
 
-          print(
-              "REFRESH_TOKEN:${response.statusCode}:${response.body}:COOKIE:refreshToken=" +
-                  cookie);
           if (response.statusCode == 200) {
             SharedPreferencesHelper.saveSession(
                 User.fromJson(jsonDecode(response.body)));
@@ -338,7 +332,6 @@ class APIService {
         Location.fromJson({"id": "-1", "location": "Select"})
       ];
       if (response.statusCode == 200) {
-        print(response.data);
         for (var loc in response.data) {
           _locations.add(Location.fromJson(loc));
         }
@@ -381,7 +374,6 @@ class APIService {
       String location =
           await SharedPreferencesHelper.getString("DefaultTestLocationName");
       String staffId = await SharedPreferencesHelper.getUserId();
-      print(locationId);
       final response = await _dio.post('/bc/register-device', data: {
         "patientId": code.getHash(),
         "barcode": code.relationship,
@@ -405,9 +397,9 @@ class APIService {
       final response = await _dio.post('/bc/scrap-device',
           data: {'staffId': staffId, 'barcode': barcode});
       return API.fromJson(response.data);
-    } catch (error) {
-      print(error);
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      print(e);
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -464,7 +456,6 @@ class APIService {
     try {
       final response = await _dio.post('/bc/checkout',
           data: {"patientId": patientId, "barcode": barcode});
-      print(response);
       return true;
     } on Exception catch (e) {
       print(e);
