@@ -27,7 +27,7 @@ class WebTimeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              kAppName,
+              kAppTitleText,
               style: TextStyle(
                   fontSize: getProportionateScreenWidth(20),
                   color: kPrimaryColor,
@@ -100,9 +100,8 @@ class Body extends StatelessWidget {
                             press: () async {
                               await SharedPreferencesHelper.removeString(
                                   "RECEIVER");
-                              String receiver =
-                                  await SharedPreferencesHelper.getString(
-                                      "RECEIVER");
+                              await SharedPreferencesHelper.getString(
+                                  "RECEIVER");
                               Navigator.pushNamedAndRemoveUntil(context,
                                   WebTimeScreen.routeName, (route) => false);
                             },

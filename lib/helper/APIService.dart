@@ -454,7 +454,7 @@ class APIService {
 
   Future<bool> checkOutPatient(String patientId, String barcode) async {
     try {
-      final response = await _dio.post('/bc/checkout',
+      await _dio.post('/bc/checkout',
           data: {"patientId": patientId, "barcode": barcode});
       return true;
     } on Exception catch (e) {
