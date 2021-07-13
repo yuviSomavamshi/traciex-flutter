@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="global.healthx.traciexapp"
+    package="global.traciex"
     xmlns:tools="http://schemas.android.com/tools"
     tools:replace="allowBackup"
     android:allowBackup="false">
@@ -16,8 +16,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="TracieX"
-        android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
