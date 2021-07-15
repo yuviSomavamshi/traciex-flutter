@@ -462,4 +462,28 @@ class APIService {
       return false;
     }
   }
+
+  Future<API> registerWebtimer(String receiverName) async {
+    try {
+      final response =
+          await _dio.post('/ws/register', data: {'receiverName': receiverName});
+      return API.fromJson(response.data);
+    } catch (error) {
+      Map map = Map<String, dynamic>.from(error.response?.data);
+      map.putIfAbsent("statusCode", () => 500);
+      return API.fromJson(map);
+    }
+  }
+
+  Future<API> invokeWebtimer(String type, String user) async {
+    try {
+      final response =
+          await _dio.post('/ws/timer/' + type, data: {'patientName': user});
+      return API.fromJson(response.data);
+    } catch (error) {
+      Map map = Map<String, dynamic>.from(error.response?.data);
+      map.putIfAbsent("statusCode", () => 500);
+      return API.fromJson(map);
+    }
+  }
 }

@@ -7,7 +7,8 @@ import 'package:traciex/models/Result.dart';
 import 'package:traciex/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-EncryptedSharedPreferences encryptedSharedPreferences = EncryptedSharedPreferences();
+EncryptedSharedPreferences encryptedSharedPreferences =
+    EncryptedSharedPreferences();
 
 class SharedPreferencesHelper {
   SharedPreferencesHelper._privateConstructor();
@@ -21,7 +22,8 @@ class SharedPreferencesHelper {
   static String _prefix = "-";
   static Future<List<QRCode>> getQRCodes() async {
     List<QRCode> qrCodes = [];
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     var result = prefs.getStringList(_prefix + "-" + _kPatientQRCode);
     if (result != null) {
       qrCodes =
@@ -32,13 +34,15 @@ class SharedPreferencesHelper {
 
   static Future<bool> setQRCodes(List<QRCode> value) async {
     List<String> codes = value.map((e) => json.encode(e)).toList();
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     return prefs.setStringList(_prefix + "-" + _kPatientQRCode, codes);
   }
 
   static Future<String> addQRCode(QRCode code) async {
     List<QRCode> qrCodes = [];
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     var value = prefs.getStringList(_prefix + "-" + _kPatientQRCode);
     if (value != null) {
       qrCodes =
@@ -65,23 +69,27 @@ class SharedPreferencesHelper {
   }
 
   static Future<dynamic> removeString(String key) async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     return prefs.remove(_prefix + "-" + key);
   }
 
   static Future<dynamic> setString(String key, String value) async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     return prefs.setString(_prefix + "-" + key, value);
   }
 
   static Future<dynamic> getString(String key) async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     return prefs.getString(_prefix + "-" + key);
   }
 
   static Future<QRCode> getMyQR() async {
     List<QRCode> qrCodes = [];
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     var value = prefs.getStringList(_prefix + "-" + _kPatientQRCode);
     if (value != null) {
       qrCodes =
@@ -95,7 +103,8 @@ class SharedPreferencesHelper {
 
   static Future<bool> removeQRCode(QRCode code) async {
     List<QRCode> qrCodes = [];
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     var value = prefs.getStringList(_prefix + "-" + _kPatientQRCode);
     if (value != null) {
       qrCodes =
@@ -109,7 +118,8 @@ class SharedPreferencesHelper {
   }
 
   static void clearSession() async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     prefs.remove(kId);
     prefs.remove(kName);
     prefs.remove(kToken);
@@ -124,7 +134,8 @@ class SharedPreferencesHelper {
   }
 
   static void saveSession(User value) async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     _prefix = value.email;
     prefs.setString(kId, value.id);
     prefs.setString(kName, value.name);
@@ -175,23 +186,27 @@ class SharedPreferencesHelper {
 
   static Future<dynamic> setEmail(String value) async {
     _prefix = value;
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     return prefs.setString(kEmail, value);
   }
 
   static Future<dynamic> setToken(String value) async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     return prefs.setString(kToken, value);
   }
 
   static Future<dynamic> unsetToken() async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     return prefs.remove(kToken);
   }
 
   static Future<String> addPatient(Result code) async {
     List<Result> results = [];
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     var value = prefs.getStringList(_prefix + "-" + _kPatientResultsCode);
     if (value != null) {
       results =
@@ -209,7 +224,8 @@ class SharedPreferencesHelper {
 
   static Future<bool> removePatient(Result code) async {
     List<Result> patients = [];
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     var value = prefs.getStringList(_prefix + "-" + _kPatientResultsCode);
     if (value != null) {
       patients =
@@ -224,7 +240,8 @@ class SharedPreferencesHelper {
 
   static Future<List<Result>> getResults() async {
     List<Result> patients = [];
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     var result = prefs.getStringList(_prefix + "-" + _kPatientResultsCode);
     if (result != null) {
       patients =
@@ -234,7 +251,8 @@ class SharedPreferencesHelper {
   }
 
   static Future<bool> persistResults(List<Result> results) async {
-    final SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    final SharedPreferences prefs =
+        await encryptedSharedPreferences.getInstance();
     List<String> codes = results.map((e) => json.encode(e)).toList();
     return prefs.setStringList(_prefix + "-" + _kPatientResultsCode, codes);
   }

@@ -1,7 +1,6 @@
 import 'package:traciex/screens/home/home_screen.dart';
 import 'package:traciex/components/default_button.dart';
 import 'package:traciex/constants.dart';
-import 'package:traciex/helper/connection.dart';
 import 'package:traciex/helper/APIService.dart';
 import 'package:traciex/helper/SharedPreferencesHelper.dart';
 import 'package:traciex/screens/sign_in/sign_in_screen.dart';
@@ -9,6 +8,8 @@ import 'package:traciex/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import './web_timer_qr_scanner.dart';
+
+APIService apiService = new APIService();
 
 class WebTimeScreen extends StatelessWidget {
   static String routeName = "/web_timer";
@@ -112,21 +113,11 @@ class Body extends StatelessWidget {
                             text: "Start Timer",
                             press: () async {
                               try {
-                                String email = await SharedPreferencesHelper
-                                    .getUserEmail();
                                 String name =
                                     await SharedPreferencesHelper.getUserName();
-                                String receiver =
-                                    await SharedPreferencesHelper.getString(
-                                        "RECEIVER");
-                                String jsonData = '{senderName: "' +
-                                    email +
-                                    '",receiverName: "' +
-                                    receiver +
-                                    '",patientName: "' +
-                                    name +
-                                    '"}';
-                                con.sendMessage("START_TIMER", jsonData);
+                                apiService
+                                    .invokeWebtimer("start", name)
+                                    .then((value) => null);
                               } on Exception catch (e) {
                                 print(e);
                               }
@@ -202,7 +193,6 @@ class _ChangePassFormState extends State<ChangePassForm> {
             text: "Continue",
             press: () async {
               if (_formKey.currentState.validate()) {
-                APIService apiService = new APIService();
                 apiService
                     .changePassword(
                         oldPassword: _oldPassword,

@@ -7,13 +7,14 @@ import 'package:traciex/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:traciex/components/default_button.dart';
-import 'package:traciex/helper/connection.dart';
 
 import 'package:traciex/constants.dart';
 import 'package:traciex/size_config.dart';
 
 import 'device_barcode_scanner.dart';
 import 'package:circular_countdown/circular_countdown.dart';
+
+APIService apiService = new APIService();
 
 class ScanSummaryScreen extends StatelessWidget {
   static String routeName = "/scanSummary";
@@ -151,19 +152,9 @@ class _ScanSummaryScreenBodyState extends State<ScanSummaryScreenBody> {
                                   showConfirmation = false;
                                 });
                                 try {
-                                  String email = await SharedPreferencesHelper
-                                      .getUserEmail();
-                                  String receiver =
-                                      await SharedPreferencesHelper.getString(
-                                          "RECEIVER");
-                                  String jsonData = '{senderName: "' +
-                                      email +
-                                      '",receiverName: "' +
-                                      receiver +
-                                      '",patientName: "' +
-                                      code.name +
-                                      '"}';
-                                  con.sendMessage("START_TIMER", jsonData);
+                                  apiService
+                                      .invokeWebtimer("start", code.name)
+                                      .then((value) => null);
                                 } on Exception catch (e) {
                                   print(e);
                                 }
@@ -439,9 +430,7 @@ class BarcodeSummaryCard extends StatelessWidget {
                               style:
                                   TextStyle(fontSize: 8, color: Colors.white)),
                           onPressed: () async {
-                            APIService apiService = new APIService();
                             apiService.scrapDevice(barcode);
-
                             Navigator.pushNamedAndRemoveUntil(context,
                                 ScanDeviceBarcode.routeName, (route) => true);
                           })
