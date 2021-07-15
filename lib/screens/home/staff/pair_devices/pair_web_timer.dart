@@ -1,3 +1,4 @@
+import 'package:traciex/models/API.dart';
 import 'package:traciex/screens/home/home_screen.dart';
 import 'package:traciex/components/default_button.dart';
 import 'package:traciex/constants.dart';
@@ -54,7 +55,14 @@ class WebTimeScreen extends StatelessWidget {
 class Body extends StatelessWidget {
   Future<String> downloadData() async {
     String receiver = await SharedPreferencesHelper.getString("RECEIVER");
-    return Future.value(receiver); // return your response
+    if (receiver == null) return Future.value(receiver);
+    API response = await apiService.checkWebtimer();
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return Future.value(receiver);
+    } else {
+      return Future.value(null); // return your response
+    }
   }
 
   @override
@@ -99,6 +107,7 @@ class Body extends StatelessWidget {
                           DefaultButton(
                             text: "Disconnect paired Device",
                             press: () async {
+                              await apiService.disconnectWebtimer();
                               await SharedPreferencesHelper.removeString(
                                   "RECEIVER");
                               await SharedPreferencesHelper.getString(
