@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:traciex/size_config.dart';
 import 'package:traciex/helper/SharedPreferencesHelper.dart';
 import 'package:toast/toast.dart';
@@ -6,8 +5,10 @@ import 'package:traciex/constants.dart';
 import 'package:traciex/models/QRCode.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:traciex/helper/connection.dart';
 import 'package:traciex/screens/home/staff/pair_devices/pair_web_timer.dart';
+import 'package:traciex/helper/APIService.dart';
+
+APIService apiService = new APIService();
 
 class ScanWebTimeQRCode extends StatelessWidget {
   static String routeName = "/scanWebTimeQR";
@@ -40,31 +41,7 @@ class _ScanWebTimerQRCodeFormState extends State<ScanWebTimerQRCodeForm> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   @override
   void initState() {
-    initSocketIO();
     super.initState();
-  }
-
-  initSocketIO() {
-    //subscribe event
-    con.subscribe("SCAN_QR_CODE_RESP", _getMessage);
-  }
-
-  void _getMessage(dynamic data) {
-    Map<String, dynamic> map = new Map<String, dynamic>();
-    map = json.decode(data);
-    setState(() async {
-      if (map['status'] == "success") {
-        await SharedPreferencesHelper.setString(
-            "RECEIVER", map['receiverName']);
-        Toast.show("Successfully Paired Device", context,
-            duration: kToastDuration, gravity: Toast.BOTTOM);
-        Navigator.pushNamedAndRemoveUntil(
-            context, WebTimeScreen.routeName, (route) => false);
-      } else {
-        Toast.show(map['message'], context,
-            duration: kToastDuration, gravity: Toast.BOTTOM);
-      }
-    });
   }
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -124,15 +101,23 @@ class _ScanWebTimerQRCodeFormState extends State<ScanWebTimerQRCodeForm> {
 
       if (result.format.formatName == "QR_CODE") {
         try {
-          String email = await SharedPreferencesHelper.getUserEmail();
           controller.pauseCamera();
-          String jsonData = '{senderName: "' +
-              email +
-              '",receiverName: "' +
-              result.code +
-              '"}';
-          con.sendMessage("SCAN_QR_CODE", jsonData);
-          setState(() {});
+          apiService.registerWebtimer(result.code).then((value) async {
+            if (value != null) {
+              if (value.statusCode == 201) {
+                await SharedPreferencesHelper.setString(
+                    "RECEIVER", result.code);
+                Toast.show("Successfully Paired Device", context,
+                    duration: kToastDuration, gravity: Toast.BOTTOM);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, WebTimeScreen.routeName, (route) => false);
+              } else {
+                Toast.show(value.message, context,
+                    duration: kToastDuration, gravity: Toast.BOTTOM);
+                setState(() {});
+              }
+            }
+          });
         } on Exception catch (e) {
           print(e);
         }

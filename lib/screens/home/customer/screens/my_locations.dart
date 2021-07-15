@@ -196,8 +196,7 @@ class LocationQRCodeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String qr = kWebsite +
-        "/patient-registration.html?staffId=$customerId&location=${loc.location}&locationId=${loc.id}";
+    String qr = kWebsite + "/user-registration.html?location=${loc.location}";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
