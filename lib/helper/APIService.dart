@@ -467,9 +467,8 @@ class APIService {
     try {
       final response = await _dio.post('/ws/check', data: {});
       return API.fromJson(response.data);
-    } catch (error) {
-      print(error);
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -479,9 +478,8 @@ class APIService {
     try {
       final response = await _dio.post('/ws/disconnect', data: {});
       return API.fromJson(response.data);
-    } catch (error) {
-      print(error);
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -493,7 +491,6 @@ class APIService {
           await _dio.post('/ws/register', data: {'receiverName': receiverName});
       return API.fromJson(response.data);
     } catch (e) {
-      print(e);
       Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
@@ -505,8 +502,8 @@ class APIService {
       final response =
           await _dio.post('/ws/timer/' + type, data: {'patientName': user});
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
