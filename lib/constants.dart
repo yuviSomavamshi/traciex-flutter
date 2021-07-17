@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 const kAppName = "TracieX";
 const kAppTitleText = "Tracie";
 const kWebsite = "https://traciex.healthx.global";
+//const kWebsite = "http://192.168.0.101";
 const kPrimaryColor = Color(0xFF02B9D4);
 const kPrimaryCustomColor = Color(0XFFF58C29);
 const kTracieFontFamily = "Kaushan Script";
