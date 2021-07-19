@@ -144,6 +144,7 @@ class SharedPreferencesHelper {
     prefs.setString(kRole, value.role);
     prefs.setBool(kAuthorized, true);
     prefs.setString(kRefreshToken, value.refreshToken);
+    prefs.setString(kCSRFToken, value.csrfToken);
   }
 
   static Future<bool> isAuthenticated() async {
@@ -182,6 +183,11 @@ class SharedPreferencesHelper {
   static Future<String> getRefreshToken() async {
     SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
     return prefs.getString(kRefreshToken);
+  }
+
+  static Future<String> getCSRFToken() async {
+    SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    return prefs.getString(kCSRFToken);
   }
 
   static Future<dynamic> setEmail(String value) async {

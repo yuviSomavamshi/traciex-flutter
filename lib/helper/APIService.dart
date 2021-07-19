@@ -40,6 +40,10 @@ class APIService {
       if (cookie != null) {
         options.headers["Cookie"] = cookie;
       }
+      String csrf = await SharedPreferencesHelper.getCSRFToken();
+      if (csrf != null) {
+        options.headers["X-CSRF-Token"] = csrf;
+      }
       options.headers["User-Agent"] = "HealthX-Mobile";
       options.headers["Accept"] = "application/json";
 
