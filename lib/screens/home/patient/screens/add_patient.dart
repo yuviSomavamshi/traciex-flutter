@@ -113,7 +113,7 @@ class _PatientRegFormState extends State<PatientRegForm> {
                 },
               ),
               Text(
-                "I Agree to Terms & Conditions",
+                "I Agree to the Terms & Conditions",
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     fontSize: getProportionateScreenWidth(16),

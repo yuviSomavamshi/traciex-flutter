@@ -6,11 +6,14 @@ import 'package:traciex/styles.dart';
 import 'helper/QRCodeAlert.dart';
 import 'models/QRCode.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const kAppName = "TracieX";
 const kAppTitleText = "Tracie";
 const kWebsite = "https://traciex.healthx.global";
 //const kWebsite = "http://192.168.0.101";
+const kPrivacyPolicyWebpage =
+    "https://traciex.healthx.global/privacy-policy.html";
 const kPrimaryColor = Color(0xFF02B9D4);
 const kPrimaryCustomColor = Color(0XFFF58C29);
 const kTracieFontFamily = "Kaushan Script";
@@ -762,3 +765,6 @@ getCountryCodeByName(String name) {
   }
   return name;
 }
+
+void launchURL(String url) async =>
+    await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
