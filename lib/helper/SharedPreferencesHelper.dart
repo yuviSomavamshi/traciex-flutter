@@ -134,17 +134,23 @@ class SharedPreferencesHelper {
   }
 
   static void saveSession(User value) async {
-    final SharedPreferences prefs =
-        await encryptedSharedPreferences.getInstance();
-    _prefix = value.email;
-    prefs.setString(kId, value.id);
-    prefs.setString(kName, value.name);
-    prefs.setString(kToken, value.jwtToken);
-    prefs.setString(kEmail, value.email);
-    prefs.setString(kRole, value.role);
-    prefs.setBool(kAuthorized, true);
-    prefs.setString(kRefreshToken, value.refreshToken);
-    prefs.setString(kCSRFToken, value.csrfToken);
+    try {
+      final SharedPreferences prefs =
+          await encryptedSharedPreferences.getInstance();
+      _prefix = value.email;
+      prefs.setString(kId, value.id);
+      prefs.setString(kName, value.name);
+      prefs.setString(kToken, value.jwtToken);
+      prefs.setString(kEmail, value.email);
+      prefs.setString(kRole, value.role);
+      prefs.setBool(kAuthorized, true);
+      prefs.setString(
+          kRefreshToken, "refreshToken=" + value.refreshToken + ";");
+      prefs.setString(kCSRFToken, value.csrfToken);
+      prefs.setString(kSessionToken, value.session + ";");
+    } catch (e) {
+      print(e);
+    }
   }
 
   static Future<bool> isAuthenticated() async {
@@ -188,6 +194,11 @@ class SharedPreferencesHelper {
   static Future<String> getCSRFToken() async {
     SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
     return prefs.getString(kCSRFToken);
+  }
+
+  static Future<String> getSessionToken() async {
+    SharedPreferences prefs = await encryptedSharedPreferences.getInstance();
+    return prefs.getString(kSessionToken);
   }
 
   static Future<dynamic> setEmail(String value) async {

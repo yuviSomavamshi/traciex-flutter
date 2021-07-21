@@ -10,6 +10,7 @@ class User {
   final int statusCode;
   final String refreshToken;
   final String csrfToken;
+  final String session;
 
   User(
       this.name,
@@ -22,7 +23,8 @@ class User {
       this.statusCode,
       this.created,
       this.refreshToken,
-      this.csrfToken);
+      this.csrfToken,
+      this.session);
 
   String getId() {
     return id;
@@ -43,7 +45,8 @@ class User {
         statusCode = json["statusCode"],
         created = json["created"],
         refreshToken = json["refreshToken"],
-        csrfToken = json["csrfToken"];
+        csrfToken = json["csrfToken"],
+        session = json["session"];
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -56,6 +59,7 @@ class User {
         "statusCode": statusCode,
         "created": created,
         "refreshToken": refreshToken,
-        "csrfToken": csrfToken
+        "csrfToken": csrfToken,
+        "session": session
       };
 }
