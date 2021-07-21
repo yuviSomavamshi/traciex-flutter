@@ -36,17 +36,21 @@ class APIService {
       if (token != null) {
         options.headers["Authorization"] = "Bearer " + token;
       }
-      String cookie = await SharedPreferencesHelper.getRefreshToken();
-      if (cookie != null) {
-        options.headers["Cookie"] = cookie;
+      String session = await SharedPreferencesHelper.getSessionToken();
+      if (session != null) {
+        String refreshToken = await SharedPreferencesHelper.getRefreshToken();
+
+        if (refreshToken != null) {
+          options.headers["Cookie"] = refreshToken + session;
+        }
+        String csrf = await SharedPreferencesHelper.getCSRFToken();
+        if (csrf != null) {
+          options.headers["X-CSRF-Token"] = csrf;
+        }
       }
-      String csrf = await SharedPreferencesHelper.getCSRFToken();
-      if (csrf != null) {
-        options.headers["X-CSRF-Token"] = csrf;
-      }
+
       options.headers["User-Agent"] = "HealthX-Mobile";
       options.headers["Accept"] = "application/json";
-
       // Do something before request is sent
       return handler.next(options); //continue
       // If you want to resolve the request with some custom data，
@@ -75,52 +79,54 @@ class APIService {
       // Do something with response error
       if (error.response?.statusCode == 401 &&
           error.requestOptions?.path != "/accounts/refresh-token") {
-        try {
-          String token = await SharedPreferencesHelper.getUserToken();
-          if (token != null) {
-            options.headers["Authorization"] = "Bearer " + token;
-          }
-          String cookie = await SharedPreferencesHelper.getRefreshToken();
-          if (cookie != null) {
-            options.headers["Cookie"] = cookie;
-          }
-          options.headers["User-Agent"] = "HealthX-Mobile";
-          options.headers["Accept"] = "application/json";
+        String token = await SharedPreferencesHelper.getUserToken();
+        String session = await SharedPreferencesHelper.getSessionToken();
+        String refreshToken = await SharedPreferencesHelper.getRefreshToken();
 
-          final ioc = new HttpClient();
-          ioc.badCertificateCallback =
-              (X509Certificate cert, String host, int port) => true;
-          final http = new IOClient(ioc);
-          var response = await http.post(
-              Uri.parse(_endpoint + "/accounts/refresh-token"),
-              body: {},
-              headers: {
-                "Authorization": "Bearer " + token,
-                "Cookie": "refreshToken=" + cookie,
+        String csrf = await SharedPreferencesHelper.getCSRFToken();
+        final ioc = new HttpClient();
+        ioc.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        final http = new IOClient(ioc);
+        var response = await http.post(
+            Uri.parse(_endpoint + "/accounts/refresh-token"),
+            body: {},
+            headers: {
+              "Authorization": "Bearer " + token,
+              "Cookie": refreshToken + session,
+              "User-Agent": "HealthX-Mobile",
+              "Accept": "application/json",
+              "X-CSRF-Token": csrf
+            });
+
+        if (response.statusCode == 200) {
+          dynamic body = jsonDecode(response.body);
+          if (response.headers['set-cookie'] != null) {
+            String rawCookie = response.headers['set-cookie'];
+            if (rawCookie != null) {
+              int index = rawCookie.indexOf(';');
+              body["session"] =
+                  (index == -1) ? rawCookie : rawCookie.substring(0, index);
+            }
+          }
+          User res = User.fromJson(body);
+          SharedPreferencesHelper.saveSession(res);
+          return _dio.request(
+              error.requestOptions.baseUrl + error.requestOptions.path,
+              data: error.requestOptions.data,
+              options: Options(method: error.requestOptions.method, headers: {
+                "Authorization": "Bearer " + res.jwtToken,
+                "Cookie":
+                    "refreshToken=" + res.refreshToken + ";" + res.session,
                 "User-Agent": "HealthX-Mobile",
-                "Accept": "application/json"
-              });
-
-          if (response.statusCode == 200) {
-            User res = User.fromJson(jsonDecode(response.body));
-            SharedPreferencesHelper.saveSession(res);
-            return _dio.request(
-                error.requestOptions.baseUrl + error.requestOptions.path,
-                data: error.requestOptions.data,
-                options: Options(method: error.requestOptions.method, headers: {
-                  "Authorization": "Bearer " + res.jwtToken,
-                  "Cookie": res.refreshToken,
-                  "User-Agent": "HealthX-Mobile",
-                  "Accept": "application/json"
-                }));
-          } else {
-            SharedPreferencesHelper.clearSession();
-            NavigationService.instance.navigateTo("/sign_in");
-          }
-        } catch (e) {
-          print(e);
+                "Accept": "application/json",
+                "X-CSRF-Token": res.csrfToken
+              }));
+        } else {
+          SharedPreferencesHelper.clearSession();
+          NavigationService.instance.navigateTo("/sign_in");
         }
-        return _dio.request("", options: null);
+        return null;
       } else {
         return handler.next(error);
       }
@@ -136,13 +142,19 @@ class APIService {
         'email': email,
         'password': password,
       });
+
       if (response.headers['set-cookie'] != null) {
-        response.data
-            .putIfAbsent("refreshToken", () => response.headers['set-cookie']);
+        String rawCookie = response.headers['set-cookie'][0];
+        if (rawCookie != null) {
+          int index = rawCookie.indexOf(';');
+          response.data.putIfAbsent("session",
+              () => (index == -1) ? rawCookie : rawCookie.substring(0, index));
+        }
       }
       return User.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      print(e);
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return User.fromJson(map);
     }
@@ -162,8 +174,8 @@ class APIService {
         'role': 'Patient'
       });
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -175,8 +187,8 @@ class APIService {
       final response = await _dio.post('/accounts/verify-email',
           data: {'email': email, 'token': token});
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -188,8 +200,8 @@ class APIService {
       final response = await _dio.post('/accounts/validate-reset-token',
           data: {'email': email, 'token': token});
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -200,8 +212,8 @@ class APIService {
       final response =
           await _dio.post('/accounts/forgot-password', data: {'email': email});
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -220,8 +232,8 @@ class APIService {
         'confirmPassword': confirmPassword
       });
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -238,8 +250,8 @@ class APIService {
         'confirmPassword': confirmPassword
       });
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -304,8 +316,8 @@ class APIService {
         'role': 'Staff'
       });
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -315,8 +327,8 @@ class APIService {
     try {
       final response = await _dio.delete('/customer/staff/' + id);
       return API.fromJson(response.data);
-    } catch (error) {
-      Map map = Map<String, dynamic>.from(error.response?.data);
+    } catch (e) {
+      Map map = Map<String, dynamic>.from(e.response?.data);
       map.putIfAbsent("statusCode", () => 500);
       return API.fromJson(map);
     }
@@ -479,6 +491,7 @@ class APIService {
   Future<API> checkWebtimer() async {
     try {
       final response = await _dio.post('/ws/check', data: {});
+      print(response);
       return API.fromJson(response.data);
     } catch (e) {
       Map map = Map<String, dynamic>.from(e.response?.data);

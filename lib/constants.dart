@@ -421,6 +421,7 @@ const String kEmail = "email";
 const String kToken = "token";
 const String kRefreshToken = "refreshToken";
 const String kCSRFToken = "csrfToken";
+const String kSessionToken = "session";
 const String kName = "name";
 const String kId = "id";
 const String kRole = "role";
