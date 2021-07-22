@@ -325,7 +325,7 @@ class APIService {
 
   Future<API> deleteStaff(String id) async {
     try {
-      final response = await _dio.delete('/customer/staff/' + id);
+      final response = await _dio.post('/customer/staff/' + id + '/delete');
       return API.fromJson(response.data);
     } catch (e) {
       Map map = Map<String, dynamic>.from(e.response?.data);
@@ -383,7 +383,7 @@ class APIService {
 
   Future<API> deleteLocation(String id) async {
     try {
-      final response = await _dio.delete('/customer/location/' + id);
+      final response = await _dio.post('/customer/location/' + id + '/delete');
       return API.fromJson(response.data);
     } catch (error) {
       Map map = Map<String, dynamic>.from(error.response?.data);
