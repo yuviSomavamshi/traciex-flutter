@@ -48,7 +48,6 @@ dependencies:
   dio: ^4.0.0
   flutter_spinkit: ^5.0.0
   url_launcher: ^6.0.9
-  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
