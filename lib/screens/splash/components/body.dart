@@ -9,6 +9,7 @@ import 'package:traciex/screens/sign_in/sign_in_screen.dart';
 import 'package:traciex/size_config.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -22,9 +23,14 @@ class _BodyState extends State<Body> {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     super.initState();
     Timer(Duration(seconds: 3), () async {
-      try {
-        bool isAuthenticated = await SharedPreferencesHelper.isAuthenticated();
-        if (isAuthenticated) {
+      try{
+      bool isAuthenticated = await SharedPreferencesHelper.isAuthenticated();
+      if (isAuthenticated) {
+        //check if returning user's current session has expired
+        String token = await SharedPreferencesHelper.getUserToken();
+        bool tokenExpired = token != null ? JwtDecoder.isExpired(token) : false;
+
+        if (!tokenExpired) {
           bool bioMetrics = await _authenticateMe();
           if (bioMetrics) {
             String role = await SharedPreferencesHelper.getUserRole();
@@ -34,24 +40,26 @@ class _BodyState extends State<Body> {
                   context, MyHomeScreen.routeName, (route) => false);
             }
           } else {
-            SystemNavigator.pop();
+            _clearSessionAndSignOut();
           }
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, SignInScreen.routeName, (route) => false);
+          _clearSessionAndSignOut();
         }
-      } on Exception catch (e) {
-        print(e);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, SignInScreen.routeName, (route) => false);
       }
+    } on Exception catch (e) {
+      print(e);
+    }
     });
   }
 
   Future<bool> _authenticateMe() async {
     bool authenticated = false;
     try {
-      bool hasFingerPrintSupport =
-          await _localAuthentication.canCheckBiometrics;
-      if (hasFingerPrintSupport) {
+      bool hasBiometricsSupport = await _localAuthentication.canCheckBiometrics;
+      if (hasBiometricsSupport) {
         authenticated = await _localAuthentication.authenticate(
           biometricOnly: true,
           localizedReason: "Please authenticate to unlock " + kAppName,
@@ -66,6 +74,12 @@ class _BodyState extends State<Body> {
     }
     if (!mounted) return false;
     return authenticated;
+  }
+
+  void _clearSessionAndSignOut() {
+    SharedPreferencesHelper.clearSession();
+    Navigator.pushNamedAndRemoveUntil(
+        context, SignInScreen.routeName, (route) => false);
   }
 
   int currentPage = 0;
